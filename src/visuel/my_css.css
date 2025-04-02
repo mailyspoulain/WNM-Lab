@@ -1,0 +1,58 @@
+body {
+  background-color: rgb(198, 220, 222);
+}
+
+
+h1 {
+  color: rgb(26, 125, 41);
+  text-align: center;
+}
+
+.p1 {
+ 
+  color: rgb(32, 28, 28);
+  font-family: "FreeMono", cursive;
+}
+
+
+.wrapper {
+  display: flex;
+  justify-content: center;  /* Centre horizontalement */
+  align-items: center;      /* Centre verticalement */
+  height: calc(100vh - 50px); /* Ajuste la hauteur sans cacher le paragraphe */
+}
+
+
+.container {
+  align-self: center;
+  background: white;
+  padding: 60px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 50, 3.2);
+  text-align: center;
+  width: 300px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+}
+
+button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}

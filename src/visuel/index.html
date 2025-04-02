@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAI</title>
+    <link rel="stylesheet" href="my_css.css">
+</head>
+
+<body>
+    <h1 class="p1">Connexion à MedAI</h1>
+
+    <p>Vous avez besoin d'un diagnostic rapide et efficace ? </p>
+    <p>L'IA de MedAI est faites pour vous ! </p>
+    <p>Grâce à elle vous obtiendrez des informations sur tout vos Scanner/IRM </p>
+    <p class="p1"> Entrer vos identifiants ou inscrivez vous gratuitement pour avoir accès à ce service </p>
+    <div class="wrapper">
+        <div class="container">
+            <h2>Connexion</h2>
+            <form id="loginForm">
+                <input type="text" id="login_username" placeholder="Nom d'utilisateur" required>
+                <input type="password" id="login_password" placeholder="Mot de passe" required>
+                <button type="submit">Se connecter</button>
+                <p id="login_error" class="error"></p>
+            </form>
+
+            <h2>Inscription</h2>
+            <form id="registerForm">
+                <input type="text" id="register_username" placeholder="Nom d'utilisateur" required>
+                <input type="password" id="register_password" placeholder="Mot de passe" required>
+                <button type="submit">S'inscrire</button>
+                <p id="register_error" class="error"></p>
+            </form>
+        </div>
+    </div>
+    <p id="message"></p> <!-- Affiche le message de réponse -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
