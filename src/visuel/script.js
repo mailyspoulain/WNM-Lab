@@ -11,6 +11,7 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     })
     .then(response => response.text())
     .then(data => {
+        console.log("Réponse du serveur :", data); // 🔴 DEBUG ICI
         document.getElementById("message").innerText = data;
     })
     .catch(error => console.error("Erreur :", error));
