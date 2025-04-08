@@ -1,9 +1,21 @@
 <?php
 $host = "localhost";
-$dbname = "user_system";
+$dbname = "med_ai";
 $user = "root"; 
-$pass = "";  
+$pass = "1A2B3c4d*";
+$conn = "";
 
+$conn = new mysqli($host,$user,$pass,$dbname);
+
+if($conn){
+    echo " Vous êtes bien connecté";
+}
+else {
+    echo "Mété co'ou deyo";
+}
+
+
+/*
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -28,3 +40,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+*/

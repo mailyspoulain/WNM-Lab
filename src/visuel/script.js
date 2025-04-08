@@ -5,7 +5,7 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     formData.append("username", document.getElementById("username").value);
     formData.append("password", document.getElementById("password").value);
 
-    fetch("inscription.php", {
+    fetch("register.php", {
         method: "POST",
         body: formData
     })
