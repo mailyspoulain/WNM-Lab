@@ -4,13 +4,14 @@ body {
 
 
 h1 {
-  color: rgb(26, 125, 41);
+  color: rgb(23, 26, 27);
   text-align: center;
 }
 
 .p1 {
  
   color: rgb(32, 28, 28);
+  font-size: 24px;
   font-family: "FreeMono", cursive;
 }
 
