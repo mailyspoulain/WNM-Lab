@@ -1,140 +1,90 @@
-<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedVision AI - Analyse d'Images Médicales</title>
     <link rel="stylesheet" href="accueil.css">
-    <style>
-        
-    </style>
+    <title>MedAI - Diagnostic assisté par IA pour images médicales</title>
 </head>
 <body>
-    <header>
-        <div class="logo">Med<span>Vision</span> AI</div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Analyse</a></li>
-                <li><a href="#">Documentation</a></li>
-                <li><a href="#">À propos</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+    <!-- En-tête de navigation -->
+    <header class="header">
+        <div class="logo">Med<span>AI</span></div>
+        <nav class="nav">
+            <a href="file:///C:/Users/maily/WNM-Lab/src/visuel/inscription.html" class="nav-link">Se connecter</a>
         </nav>
     </header>
     
-    <main>
-        <section class="hero">
-            <h1>Détection d'anomalies médicales par Intelligence Artificielle</h1>
-            <p>Notre système utilise des algorithmes avancés de Deep Learning pour analyser les images médicales et détecter diverses pathologies avec une grande précision. Téléchargez votre image pour commencer l'analyse.</p>
-        </section>
-        
-        <div class="analysis-container">
-            <section class="upload-section">
-                <h2>Télécharger une image</h2>
-                <div class="drop-area">
-                    <img src="/api/placeholder/100/100" alt="icône upload" />
-                    <p>Glissez-déposez votre image ici ou cliquez pour sélectionner</p>
-                </div>
-                <div class="image-type-selector">
-                    <h3>Type d'image</h3>
-                    <div style="margin: 1rem 0;">
-                        <input type="radio" id="xray" name="image-type" checked>
-                        <label for="xray">Radiographie</label>
-                        
-                        <input type="radio" id="mri" name="image-type" style="margin-left: 1rem;">
-                        <label for="mri">IRM</label>
-                        
-                        <input type="radio" id="ultrasound" name="image-type" style="margin-left: 1rem;">
-                        <label for="ultrasound">Échographie</label>
-                        
-                        <input type="radio" id="dermatology" name="image-type" style="margin-left: 1rem;">
-                        <label for="dermatology">Dermatologie</label>
-                    </div>
-                </div>
-                <div class="upload-options">
-                    <button class="btn">Lancer l'analyse</button>
-                    <button class="btn btn-danger">Réinitialiser</button>
-                </div>
-                
-                <div class="info-box">
-                    <p><strong>Note:</strong> Les images téléchargées sont uniquement utilisées pour l'analyse et ne sont pas stockées sur nos serveurs.</p>
-                </div>
-                
-                <div class="warning-box">
-                    <p><strong>Important:</strong> Cet outil est conçu comme une aide au diagnostic et ne remplace pas l'avis d'un professionnel de santé.</p>
-                </div>
-            </section>
-            
-            <section class="result-section">
-                <h2>Résultats de l'analyse</h2>
-                
-                <div class="analysis-tabs">
-                    <div class="tab active">Diagnostic</div>
-                    <div class="tab">Heatmap</div>
-                    <div class="tab">Détails</div>
-                </div>
-                
-                <div class="results-display">
-                    <div class="image-comparison">
-                        <div class="image-box">
-                            <h4>Image originale</h4>
-                            <img src="/api/placeholder/300/250" alt="Image médicale originale" />
-                        </div>
-                        <div class="image-box">
-                            <h4>Zones d'attention IA</h4>
-                            <img src="/api/placeholder/300/250" alt="Image avec overlay IA" />
-                        </div>
-                    </div>
-                    
-                    <div class="diagnosis-summary">
-                        <h3>Résumé du diagnostic</h3>
-                        <p style="margin: 1rem 0;">L'analyse de cette radiographie pulmonaire indique une forte probabilité de pneumonie dans le lobe inférieur droit.</p>
-                        <div style="background-color: #e8f5e9; padding: 1rem; border-radius: 5px; border-left: 4px solid var(--success);">
-                            <h4>Recommandation</h4>
-                            <p>Consultation recommandée avec un pneumologue pour confirmer le diagnostic et établir un traitement approprié.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="probabilities">
-                        <h3>Probabilités par classe</h3>
-                        
-                        <div class="prob-item">
-                            <span class="prob-label">Pneumonie</span>
-                            <div class="prob-bar-container">
-                                <div class="prob-bar" style="width: 85%; background-color: var(--danger);"></div>
-                            </div>
-                            <span class="prob-value">85%</span>
-                        </div>
-                        
-                        <div class="prob-item">
-                            <span class="prob-label">Normal</span>
-                            <div class="prob-bar-container">
-                                <div class="prob-bar" style="width: 12%; background-color: var(--success);"></div>
-                            </div>
-                            <span class="prob-value">12%</span>
-                        </div>
-                        
-                        <div class="prob-item">
-                            <span class="prob-label">Tuberculose</span>
-                            <div class="prob-bar-container">
-                                <div class="prob-bar" style="width: 3%; background-color: var(--warning);"></div>
-                            </div>
-                            <span class="prob-value">3%</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Overlay de chargement (caché par défaut) -->
-                <!-- <div class="loading-overlay">
-                    <div class="spinner"></div>
-                    <p>Analyse en cours...</p>
-                </div> -->
-            </section>
-        </div>
-    </main>
+    <!-- Section héro -->
+    <section class="hero">
+        <h1>Med<span style="color: var(--accent);">AI</span></h1>
+        <p>Diagnostic assisté par l'Intelligence Artificielle pour l'analyse d'images médicales</p>
+        <button class="btn btn-success">Commencer l'analyse</button>
+    </section>
     
-    <footer>
-        <p>&copy; 2025 MedVision AI - Projet d'IA en Imagerie Médicale</p>
+    <!-- Section fonctionnalités -->
+    <section class="features-section">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Fonctionnalités principales</h2>
+        
+        <div class="grid-3">
+            <div class="card">
+                <img src="https://via.placeholder.com/400x200" alt="Analyse précise" style="width: 100%;" />
+                <div class="card-body">
+                    <h3>Analyse précise</h3>
+                    <p>Notre technologie d'IA analyse les images médicales avec une précision comparable à celle des experts.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="https://via.placeholder.com/400x200" alt="Rapidité d'exécution" style="width: 100%;" />
+                <div class="card-body">
+                    <h3>Rapidité d'exécution</h3>
+                    <p>Obtenez des résultats en quelques secondes, ce qui permet une prise de décision médicale plus rapide.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="https://via.placeholder.com/400x200" alt="Interface intuitive" style="width: 100%;" />
+                <div class="card-body">
+                    <h3>Interface intuitive</h3>
+                    <p>Une plateforme conviviale, accessible aux professionnels de santé de tous niveaux techniques.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section types d'analyses -->
+    <section class="types-section">
+        <h2>Types d'analyses disponibles</h2>
+        <div class="grid-3" style="max-width: 1200px; margin: 2rem auto 0;">
+            <div>
+                <img src="https://via.placeholder.com/150" alt="Analyse pulmonaire" class="type-icon" />
+                <h3>Radiographies pulmonaires</h3>
+                <p>Détection de pneumonie et autres affections pulmonaires</p>
+            </div>
+        
+        </div>
+    </section>
+    
+    <!-- Section appel à l'action -->
+    <section class="cta-section">
+        <h2>Prêt à essayer MedAI?</h2>
+        <p style="margin-bottom: 2rem;">Créez un compte ou connectez-vous pour commencer l'analyse d'images médicales</p>
+        <div>
+            <button class="btn btn-primary">Créer un compte</button>
+            <button class="btn btn-outline" style="margin-left: 1rem;">Se connecter</button>
+        </div>
+    </section>
+    
+    <!-- Pied de page -->
+    <footer class="footer">
+        <div class="logo" style="margin-bottom: 1rem;">Med<span>AI</span></div>
+        <p>© 2025 MedAI. Tous droits réservés.</p>
+        <div style="margin-top: 1rem;">
+            <a href="#" style="color: white; margin: 0 0.5rem;">Mentions légales</a>
+            <a href="#" style="color: white; margin: 0 0.5rem;">Politique de confidentialité</a>
+            <a href="#" style="color: white; margin: 0 0.5rem;">Conditions d'utilisation</a>
+            <a href="#" style="color: white; margin: 0 0.5rem;">Contact</a>
+        </div>
     </footer>
 </body>
 </html>
