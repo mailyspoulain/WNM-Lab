@@ -87,5 +87,86 @@
             <a href="#" style="color: white; margin: 0 0.5rem;">Contact</a>
         </div>
     </footer>
+    <script src="/static/upload.js"></script>
+    <script>
+        document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Trouver l'élément input file
+            const fileInput = document.querySelector('input[type="file"]');
+            if (!fileInput) {
+                // Si aucun input existe, créons-en un
+                const newInput = document.createElement('input');
+                newInput.type = 'file';
+                newInput.id = 'fileInput';
+                newInput.style.display = 'none';
+                document.body.appendChild(newInput);
+                newInput.click();
+                
+                newInput.onchange = function() {
+                    if (this.files.length > 0) {
+                        uploadFile(this.files[0]);
+                    }
+                };
+            } else if (fileInput.files.length > 0) {
+                uploadFile(fileInput.files[0]);
+            } else {
+                alert('Veuillez sélectionner une image');
+            }
+        });
+        
+        function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            // Afficher état de chargement
+            document.querySelector('.results-display').innerHTML = '<p>Analyse en cours...</p>';
+            
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Afficher les résultats dans l'interface existante
+                const resultHTML = `
+                    <div class="diagnosis-summary">
+                        <h3>Résumé du diagnostic</h3>
+                        <p>L'analyse de cette radiographie pulmonaire indique une ${data.prediction === 'Pneumonie' ? 'forte' : 'faible'} probabilité de pneumonie.</p>
+                        <div style="background-color: #e8f5e9; padding: 1rem; border-radius: 5px;">
+                            <h4>Recommandation</h4>
+                            <p>${data.recommendation}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="probabilities">
+                        <h3>Probabilités par classe</h3>
+                        
+                        <div class="prob-item">
+                            <span class="prob-label">Pneumonie</span>
+                            <div class="prob-bar-container">
+                                <div class="prob-bar" style="width: ${data.probabilities.Pneumonie * 100}%; background-color: red;"></div>
+                            </div>
+                            <span class="prob-value">${Math.round(data.probabilities.Pneumonie * 100)}%</span>
+                        </div>
+                        
+                        <div class="prob-item">
+                            <span class="prob-label">Normal</span>
+                            <div class="prob-bar-container">
+                                <div class="prob-bar" style="width: ${data.probabilities.Normal * 100}%; background-color: green;"></div>
+                            </div>
+                            <span class="prob-value">${Math.round(data.probabilities.Normal * 100)}%</span>
+                        </div>
+                    </div>
+                `;
+                document.querySelector('.results-display').innerHTML = resultHTML;
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                document.querySelector('.results-display').innerHTML = 
+                    '<p>Une erreur est survenue lors de l\'analyse</p>';
+            });
+        }
+    </script>
 </body>
 </html>
