@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(198, 220, 222);
+  background-color: rgb(156, 194, 194);
 }
 
 
@@ -7,6 +7,40 @@ h1 {
   color: rgb(23, 26, 27);
   text-align: center;
 }
+
+/* Style de base pour la navbar */
+.navbar {
+  background-color: #272c2c;
+  overflow: hidden;
+}
+
+/* Enlève les puces et aligne les éléments horizontalement */
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+/* Style des éléments de la navbar */
+.navbar li {
+  flex: 1;
+}
+
+/* Liens */
+.navbar a {
+  display: block;
+  color: rgb(156, 194, 194);
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+/* Effet au survol */
+.navbar a:hover {
+  background-color: #575757;
+}
+
 
 .p1 {
  
