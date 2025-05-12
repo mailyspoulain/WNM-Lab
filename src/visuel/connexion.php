@@ -48,10 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedVision AI - Analyse d'Images Médicales</title>
-    <link rel="stylesheet" href="my_css.css">
+    <link rel="stylesheet" href="accueil.css">
 </head>
 <body>
+    <section class="hero">
     <h1>Portail de connexion</h1>
+    </section>
 
     <p class="p1">Vous faites déja partie de ceux qui se soucient réelement de leur santé ? </p>
     <p>Connectez vous pour pouvoir profiter pleinement de vos droits</p>
