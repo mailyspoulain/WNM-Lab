@@ -74,7 +74,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit">Se connecter</button>
                 <p id="login_error" class="error"></p>
             </form>
+        <?php if ($successMessage): ?>
+            <p style="color: green;"><?php echo $successMessage; ?></p>
+
+            <!-- Bouton affiché uniquement après connexion réussie -->
+            <form action="accueil.html" method="GET">
+                <button type="submit">Accéder à votre espace</button>
+            </form>
+        <?php endif; ?>
         </div>
     </div>
 </body>
 </html>
+
+
