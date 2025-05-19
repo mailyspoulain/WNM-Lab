@@ -1,0 +1,118 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAI - Nouvelle Analyse</title>
+    <link rel="stylesheet" href="nouvelle_analyse.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Med<span>AI</span></div>
+        <div class="nav">
+            <a href="#" class="nav-link">Dashboard</a>
+            <a href="#" class="nav-link active">Nouvelle analyse</a>
+            <a href="#" class="nav-link">Documentation</a>
+            <a href="#" class="nav-link">À propos</a>
+            <a href="#" class="nav-link">Dr. Martin <img src="/api/placeholder/24/24" alt="Avatar" style="border-radius: 50%; margin-left: 0.5rem;" /></a>
+        </div>
+    </div>
+    
+    <div class="dashboard-layout" style="margin-top: 2rem;">
+        <div class="sidebar">
+            <h3>Menu principal</h3>
+            <ul class="sidebar-menu">
+                <li><a href="file:///C:/Users/maily/WNM-Lab/src/visuel/dashboard.html">Tableau de bord</a></li>
+                <li><a href="file:///C:/Users/maily/WNM-Lab/src/visuel/nouvelle_analyse.html" class="active">Nouvelle analyse</a></li>
+                <li><a href="#">Historique</a></li>
+                <li><a href="#">Statistiques</a></li>
+                <li><a href="#">Documentation</a></li>
+                <li><a href="#">Paramètres</a></li>
+            </ul>
+            
+            <h3 style="margin-top: 2rem;">Types d'analyses</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active">Radiographies pulmonaires</a></li>
+                <li><a href="#">Lésions cutanées</a></li>
+                <li><a href="#">Radiographies osseuses</a></li>
+            </ul>
+        </div>
+        
+        <div class="content">
+            <h2>Nouvelle analyse</h2>
+            <p>Téléchargez une image médicale pour obtenir un diagnostic assisté par IA.</p>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3>Sélectionner le type d'analyse</h3>
+                    
+                    <div class="grid-3">
+                        <div class="card" style="border: 2px solid var(--accent);">
+                            <img src="/api/placeholder/300/150" alt="Radiographie pulmonaire" style="width: 100%;" />
+                            <div class="card-body">
+                                <h4>Radiographie pulmonaire</h4>
+                                <p>Détection de pneumonie et autres pathologies pulmonaires</p>
+                                <div class="badge badge-success">Sélectionné</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <img src="/api/placeholder/300/150" alt="Lésion cutanée" style="width: 100%;" />
+                            <div class="card-body">
+                                <h4>Lésion cutanée</h4>
+                                <p>Identification de mélanomes et lésions cancéreuses</p>
+                                <button class="btn btn-outline btn-sm">Sélectionner</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <img src="/api/placeholder/300/150" alt="Radiographie osseuse" style="width: 100%;" />
+                            <div class="card-body">
+                                <h4>Radiographie osseuse</h4>
+                                <p>Détection de fractures et anomalies osseuses</p>
+                                <button class="btn btn-outline btn-sm">Sélectionner</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h3>Téléchargement d'image</h3>
+                    
+                    <div class="upload-area">
+                        <img src="/api/placeholder/80/80" alt="Upload icon" />
+                        <h3>Glissez-déposez votre image ici</h3>
+                        <p>ou</p>
+                        <button class="btn">Parcourir les fichiers</button>
+                        <p>Formats acceptés: JPEG, PNG, DICOM</p>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <h4>Informations additionnelles (facultatives)</h4>
+                        
+                        <div class="form-group">
+                            <label for="patient-id">ID Patient (anonymisé)</label>
+                            <input type="text" id="patient-id" class="form-control" placeholder="ex: PAT-12345" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notes">Notes médicales</label>
+                            <textarea id="notes" class="form-control" rows="3" placeholder="Ajoutez des notes ou symptômes pertinents..."></textarea>
+                        </div>
+                        
+                        <div class="flex items-center mt-4">
+                            <input type="checkbox" id="anonymize" checked />
+                            <label for="anonymize" style="margin-left: 0.5rem;">Anonymiser toutes les données patient de l'image</label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <button class="btn btn-primary">Lancer l'analyse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
