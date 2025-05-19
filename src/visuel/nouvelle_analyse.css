@@ -16,6 +16,7 @@ body {
     padding: 0;
     background-color: var(--light);
     color: var(--dark);
+    overflow: hidden;
 }
 
 h1, h2, h3, h4 {
@@ -177,11 +178,17 @@ h1, h2, h3, h4 {
     color: var(--secondary);
 }
 
+.section {
+    overflow-y: auto;
+    border-radius: 8px;
+    height: calc(100vh - 130px); /* Adjust height to fit the sidebar */
+}
 .content {
     background-color: white;
-    border-radius: 8px;
+    border-radius: 8px 0px 8px 0px;
     padding: 2rem;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: fit-content;
 }
 
 .upload-area {
