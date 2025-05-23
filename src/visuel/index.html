@@ -1,36 +1,173 @@
-<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedVision AI - Analyse d'Images Médicales</title>
     <link rel="stylesheet" href="accueil.css">
+    <title>MedAI - Diagnostic assisté par IA pour images médicales</title>
 </head>
 <body>
+    <!-- En-tête de navigation -->
+    <header class="header">
+        <div class="logo">Med<span>AI</span></div>
+        <nav class="nav">
+            
+            <a href="inscription.php" class="nav-link">Inscription</a>
+            <a href="connexion.php" class="nav-link">Se connecter</a>
+        </nav>
+    </header>
+    
+    <!-- Section héro -->
     <section class="hero">
-    <h1>Portail MedAI</h1>
-    <nav class="navbar">
-        <ul>
-          <li><a class="a" href="index.html">Accueil</a></li>
-          <li><a href="a_propos.html">À propos</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
+        <h1>Med<span style="color: var(--accent);">AI</span></h1>
+        <p>Diagnostic assisté par l'Intelligence Artificielle pour l'analyse d'images médicales</p>
+        <button class="btn btn-success">Commencer l'analyse</button>
     </section>
- 
-   <p class="p1">Vous avez besoin d'un diagnostic rapide et efficace ? </p>
-    <p>L'IA de MedAI est faites pour vous ! </p>
-    <p>Grâce à elle vous obtiendrez des informations sur tout vos Scanner/IRM </p>
-    <p class="p1"> Entrer vos identifiants ou inscrivez vous gratuitement pour avoir accès à ce service </p>
-    <a href="connexion.php">
-        <button>Connexion</button>
-    </a>
-    <a href="inscription.php">
-        <button>Inscription</button>
-    </a>
-
-
+    
+    <!-- Section fonctionnalités -->
+    <section class="features-section">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Fonctionnalités principales</h2>
+        
+        <div class="grid-3">
+            <div class="card">
+                <img src="https://via.placeholder.com/400x200" alt="Analyse précise" style="width: 100%;" />
+                <div class="card-body">
+                    <h3>Analyse précise</h3>
+                    <p>Notre technologie d'IA analyse les images médicales avec une précision comparable à celle des experts.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="https://via.placeholder.com/400x200" alt="Rapidité d'exécution" style="width: 100%;" />
+                <div class="card-body">
+                    <h3>Rapidité d'exécution</h3>
+                    <p>Obtenez des résultats en quelques secondes, ce qui permet une prise de décision médicale plus rapide.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="https://via.placeholder.com/400x200" alt="Interface intuitive" style="width: 100%;" />
+                <div class="card-body">
+                    <h3>Interface intuitive</h3>
+                    <p>Une plateforme conviviale, accessible aux professionnels de santé de tous niveaux techniques.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section types d'analyses -->
+    <section class="types-section">
+        <h2>Types d'analyses disponibles</h2>
+        <div class="grid-3" style="max-width: 1200px; margin: 2rem auto 0;">
+            <div>
+                <img src="https://via.placeholder.com/150" alt="Analyse pulmonaire" class="type-icon" />
+                <h3>Radiographies pulmonaires</h3>
+                <p>Détection de pneumonie et autres affections pulmonaires</p>
+            </div>
+        
+        </div>
+    </section>
+    
+    <!-- Section appel à l'action -->
+    <section class="cta-section">
+        <h2>Prêt à essayer MedAI?</h2>
+        <p style="margin-bottom: 2rem;">Créez un compte ou connectez-vous pour commencer l'analyse d'images médicales</p>
+        <div>
+            <button class="btn btn-primary">Créer un compte</button>
+            <button class="btn btn-outline" style="margin-left: 1rem;">Se connecter</button>
+        </div>
+    </section>
+    
+    <!-- Pied de page -->
+    <footer class="footer">
+        <div class="logo" style="margin-bottom: 1rem;">Med<span>AI</span></div>
+        <p>© 2025 MedAI. Tous droits réservés.</p>
+        <div style="margin-top: 1rem;">
+            <a href="#" style="color: white; margin: 0 0.5rem;">Mentions légales</a>
+            <a href="#" style="color: white; margin: 0 0.5rem;">Politique de confidentialité</a>
+            <a href="#" style="color: white; margin: 0 0.5rem;">Conditions d'utilisation</a>
+            <a href="#" style="color: white; margin: 0 0.5rem;">Contact</a>
+        </div>
+    </footer>
+    <script src="/static/upload.js"></script>
+    <script>
+        document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Trouver l'élément input file
+            const fileInput = document.querySelector('input[type="file"]');
+            if (!fileInput) {
+                // Si aucun input existe, créons-en un
+                const newInput = document.createElement('input');
+                newInput.type = 'file';
+                newInput.id = 'fileInput';
+                newInput.style.display = 'none';
+                document.body.appendChild(newInput);
+                newInput.click();
+                
+                newInput.onchange = function() {
+                    if (this.files.length > 0) {
+                        uploadFile(this.files[0]);
+                    }
+                };
+            } else if (fileInput.files.length > 0) {
+                uploadFile(fileInput.files[0]);
+            } else {
+                alert('Veuillez sélectionner une image');
+            }
+        });
+        
+        function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            // Afficher état de chargement
+            document.querySelector('.results-display').innerHTML = '<p>Analyse en cours...</p>';
+            
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Afficher les résultats dans l'interface existante
+                const resultHTML = `
+                    <div class="diagnosis-summary">
+                        <h3>Résumé du diagnostic</h3>
+                        <p>L'analyse de cette radiographie pulmonaire indique une ${data.prediction === 'Pneumonie' ? 'forte' : 'faible'} probabilité de pneumonie.</p>
+                        <div style="background-color: #e8f5e9; padding: 1rem; border-radius: 5px;">
+                            <h4>Recommandation</h4>
+                            <p>${data.recommendation}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="probabilities">
+                        <h3>Probabilités par classe</h3>
+                        
+                        <div class="prob-item">
+                            <span class="prob-label">Pneumonie</span>
+                            <div class="prob-bar-container">
+                                <div class="prob-bar" style="width: ${data.probabilities.Pneumonie * 100}%; background-color: red;"></div>
+                            </div>
+                            <span class="prob-value">${Math.round(data.probabilities.Pneumonie * 100)}%</span>
+                        </div>
+                        
+                        <div class="prob-item">
+                            <span class="prob-label">Normal</span>
+                            <div class="prob-bar-container">
+                                <div class="prob-bar" style="width: ${data.probabilities.Normal * 100}%; background-color: green;"></div>
+                            </div>
+                            <span class="prob-value">${Math.round(data.probabilities.Normal * 100)}%</span>
+                        </div>
+                    </div>
+                `;
+                document.querySelector('.results-display').innerHTML = resultHTML;
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                document.querySelector('.results-display').innerHTML = 
+                    '<p>Une erreur est survenue lors de l\'analyse</p>';
+            });
+        }
+    </script>
 </body>
 </html>
-
-        
