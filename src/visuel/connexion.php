@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p style="color: green;"><?php echo $successMessage; ?></p>
 
             <!-- Bouton affiché uniquement après connexion réussie -->
-            <form action="dashboard.html" method="GET">
+            <form action="dashboard.php" method="GET">
                 <button type="submit">Accéder à votre espace</button>
             </form>
         <?php endif; ?>
