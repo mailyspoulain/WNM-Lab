@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('Location: connexion.php'); // Redirige si non connecté
+    exit;
+}
+$username = $_SESSION['username'];
+?>
+
+
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +25,7 @@
             <a href="#" class="nav-link">Documentation</a>
             <a href="#" class="nav-link">À propos</a>
             <a href="#" class="nav-link">
-                Dr. Martin 
+                <?php echo htmlspecialchars($username); ?>
                 <img src="https://via.placeholder.com/24" alt="Avatar" class="avatar" style="margin-left: 0.5rem;" />
             </a>
         </nav>
