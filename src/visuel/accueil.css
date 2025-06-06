@@ -10,6 +10,42 @@
     --info: #95A5A6;
 }
 
+/* Style de base pour la navbar */
+.navbar {
+  background-color: var(--primary);
+  overflow: hidden;
+}
+
+/* Enlève les puces et aligne les éléments horizontalement */
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+/* Style des éléments de la navbar */
+.navbar li {
+  flex: 1;
+}
+
+/* Liens */
+.navbar a {
+  display: block;
+  color: rgb(156, 194, 194);
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+/* Effet au survol */
+.navbar a:hover {
+  background-color: #575757;
+}
+
+
+
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -149,4 +185,48 @@ h1, h2, h3, h4 {
     color: white;
     padding: 2rem;
     text-align: center;
+}
+
+
+
+.wrapper {
+  display: flex;
+  justify-content: center;  /* Centre horizontalement */
+  align-items: center;      /* Centre verticalement */
+  height: calc(100vh - 50px); /* Ajuste la hauteur sans cacher le paragraphe */
+}
+
+
+.container {
+  align-self: center;
+  background: var(--light);
+  padding: 60px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 50, 3.2);
+  text-align: center;
+  width: 300px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+}
+
+button {
+  background-color: var(--dark);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
 }
