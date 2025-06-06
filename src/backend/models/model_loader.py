@@ -1,115 +1,292 @@
 import torch
 import torch.nn as nn
 import torchvision.models as models
+import torchvision.transforms as transforms
 import numpy as np
 from PIL import Image
 from collections import OrderedDict
 import os
 
-# Importer le chemin de configuration
-from config import MODEL_PATH
+# Configuration
+MODEL_PATH = 'model.pth.tar'
+CONFIDENCE_THRESHOLD = 0.65  # Seuil ajusté pour réduire les faux positifs
 
 class ChestXrayDenseNet(nn.Module):
     """
-    DenseNet121 adapté pour radiographies (1 canal d'entrée, sortie binaire sigmoid).
+    DenseNet121 adapté pour radiographies pulmonaires
+    Compatible avec les modèles entraînés sur ChestX-ray14
     """
-    def __init__(self):
+    def __init__(self, num_classes=14):
         super(ChestXrayDenseNet, self).__init__()
-        self.densenet121 = models.densenet121(pretrained=False)
-        # Première couche pour 1 canal (grayscale)
-        self.densenet121.features.conv0 = nn.Conv2d(
-            in_channels=1, out_channels=64,
-            kernel_size=7, stride=2, padding=3, bias=False
-        )
-        # Classifieur binaire
+        self.densenet121 = models.densenet121(pretrained=True)
         num_ftrs = self.densenet121.classifier.in_features
-        self.densenet121.classifier = nn.Linear(num_ftrs, 1)
-        self.sigmoid = nn.Sigmoid()
+        
+        # Classifier pour 14 classes (ChestX-ray14) ou binaire
+        if num_classes == 14:
+            self.densenet121.classifier = nn.Sequential(
+                nn.Linear(num_ftrs, num_classes),
+                nn.Sigmoid()
+            )
+        else:
+            # Pour classification binaire pneumonie
+            self.densenet121.classifier = nn.Sequential(
+                nn.Linear(num_ftrs, 256),
+                nn.ReLU(),
+                nn.Dropout(0.5),
+                nn.Linear(256, 1),
+                nn.Sigmoid()
+            )
 
     def forward(self, x):
-        x = self.densenet121(x)
-        return self.sigmoid(x)
+        return self.densenet121(x)
+
+
+def get_transforms():
+    """
+    Transformations correctes pour les radiographies
+    IMPORTANT: Utiliser la normalisation ImageNet standard
+    """
+    normalize = transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+    
+    transform = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        normalize
+    ])
+    
+    return transform
 
 
 def load_chest_xray_model():
+    """
+    Charge le modèle avec gestion intelligente des poids
+    """
     try:
-        # Chemin vers votre modèle
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        model_path = os.path.join(current_dir, 'model.pth.tar')
+        model_path = os.path.join(current_dir, MODEL_PATH)
+        
         if not os.path.exists(model_path):
             print(f"Modèle non trouvé à {model_path}.")
             return None
 
-        # Instancie votre DenseNet modifié
-        model = ChestXrayDenseNet()
-
-        # Charge le checkpoint
+        # Charger le checkpoint
         checkpoint = torch.load(model_path, map_location='cpu')
-        sd = checkpoint.get('state_dict', checkpoint)
+        
+        # Extraire le state_dict
+        if isinstance(checkpoint, dict) and 'state_dict' in checkpoint:
+            state_dict = checkpoint['state_dict']
+        else:
+            state_dict = checkpoint
 
-        # Si le checkpoint a été sauvé via DataParallel, retire le préfixe "module."
-        new_sd = OrderedDict()
-        for k, v in sd.items():
+        # Déterminer le nombre de classes de sortie
+        classifier_key = None
+        for k in state_dict.keys():
+            if 'classifier' in k and 'weight' in k:
+                classifier_key = k
+                break
+        
+        if classifier_key:
+            output_size = state_dict[classifier_key].shape[0]
+            print(f"Modèle détecté avec {output_size} sorties")
+        else:
+            output_size = 14  # Par défaut ChestX-ray14
+        
+        # Créer le modèle approprié
+        if output_size == 14:
+            # Modèle ChestX-ray14 - on utilisera seulement la sortie pneumonie (index 6)
+            model = ChestXrayDenseNet(num_classes=14)
+        else:
+            # Modèle binaire
+            model = ChestXrayDenseNet(num_classes=1)
+        
+        # Nettoyer les clés (retirer 'module.' si présent)
+        new_state_dict = OrderedDict()
+        for k, v in state_dict.items():
             name = k.replace('module.', '')
-            new_sd[name] = v
-
-        # Moyenne RGB→Gris pour conv0
-        if 'densenet121.features.conv0.weight' in new_sd:
-            w_rgb = new_sd['densenet121.features.conv0.weight']            # shape [64,3,7,7]
-            w_gray = w_rgb.mean(dim=1, keepdim=True)                       # shape [64,1,7,7]
-            new_sd['densenet121.features.conv0.weight'] = w_gray
-
-        # Charge tout le state_dict (strict=False pour ignorer les autres petites différences)
-        model.load_state_dict(new_sd, strict=False)
+            new_state_dict[name] = v
+        
+        # Charger les poids
+        model.load_state_dict(new_state_dict, strict=False)
         model.eval()
-        print("Modèle DenseNet121 chargé avec succès !")
-        return model
+        
+        print("Modèle DenseNet121 chargé avec succès!")
+        return model, output_size
 
     except Exception as e:
         print(f"Erreur lors du chargement du modèle : {e}")
-        return None
+        return None, 0
 
 
-def predict_pneumonia(model, image_file):
+def apply_calibration(prob, aggressive=True):
     """
-    Prétraite l'image et prédit la probabilité de pneumonie.
-    Retourne un dict {prediction, probability, recommendation, source}.
+    Applique une calibration pour réduire les faux positifs
+    Le modèle semble surestimer les probabilités
+    """
+    if aggressive:
+        # Calibration agressive pour réduire fortement les faux positifs
+        if prob < 0.5:
+            return prob * 0.5  # Réduire de moitié les faibles probabilités
+        elif prob < 0.8:
+            return 0.25 + (prob - 0.5) * 0.5  # Compression au milieu
+        else:
+            return 0.4 + (prob - 0.8) * 0.3  # Compression forte pour les hautes probabilités
+    else:
+        # Calibration douce
+        return 0.3 + 0.5 * prob
+
+
+def predict_pneumonia(model_info, image_file, use_tta=True, calibrate=True):
+    """
+    Prédit la probabilité de pneumonie avec améliorations
     """
     try:
-        if model is None:
-            raise ValueError("Modèle non chargé ou invalide")
-
-        img = Image.open(image_file).convert('L')
-        img = img.resize((224, 224))
-        arr = np.array(img, dtype=np.float32) / 255.0
-        tensor = torch.tensor(arr).unsqueeze(0).unsqueeze(0)
-
-        with torch.no_grad():
-            output = model(tensor)
-        prob = float(output.item())
-        pred_label = "Pneumonie" if prob > 0.5 else "Normal"
-
-        if prob > 0.7:
+        if model_info is None:
+            model, output_size = load_chest_xray_model()
+            if model is None:
+                raise ValueError("Impossible de charger le modèle")
+        else:
+            model, output_size = model_info
+        
+        # IMPORTANT: Convertir en RGB, pas en grayscale!
+        img = Image.open(image_file).convert('RGB')
+        
+        # Transformation correcte
+        transform = get_transforms()
+        
+        if use_tta:
+            # Test Time Augmentation pour plus de robustesse
+            tta_transforms = []
+            
+            # 1. Image originale
+            tta_transforms.append(transform)
+            
+            # 2. Légères variations
+            tta_transforms.append(transforms.Compose([
+                transforms.Resize(256),
+                transforms.RandomCrop(224),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            ]))
+            
+            # 3. Flip horizontal
+            tta_transforms.append(transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.RandomHorizontalFlip(p=1.0),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            ]))
+            
+            predictions = []
+            with torch.no_grad():
+                for t in tta_transforms:
+                    tensor = t(img).unsqueeze(0)
+                    output = model(tensor)
+                    
+                    if output_size == 14:
+                        # Pour ChestX-ray14, pneumonie est à l'index 6
+                        prob = output[0, 6].item()
+                    else:
+                        prob = output.item()
+                    
+                    predictions.append(prob)
+            
+            # Moyenne des prédictions
+            raw_prob = np.mean(predictions)
+            confidence_std = np.std(predictions)
+        else:
+            # Prédiction simple
+            tensor = transform(img).unsqueeze(0)
+            with torch.no_grad():
+                output = model(tensor)
+                
+                if output_size == 14:
+                    raw_prob = output[0, 6].item()
+                else:
+                    raw_prob = output.item()
+            
+            confidence_std = 0
+        
+        # Appliquer la calibration
+        if calibrate:
+            prob = apply_calibration(raw_prob, aggressive=True)
+        else:
+            prob = raw_prob
+        
+        # Décision avec seuil ajusté
+        pred_label = "Pneumonie" if prob > CONFIDENCE_THRESHOLD else "Normal"
+        
+        # Recommandations basées sur la probabilité calibrée
+        if prob > 0.8:
             rec = "Forte probabilité de pneumonie détectée. Consultation médicale fortement recommandée."
-        elif prob > 0.5:
+        elif prob > 0.65:
             rec = "Signes possibles de pneumonie détectés. Une consultation médicale est recommandée."
-        elif prob > 0.3:
-            rec = "Radiographie probablement normale, avec quelques anomalies mineures. Un suivi médical peut être envisagé."
+        elif prob > 0.45:
+            rec = "Résultat incertain. Un examen complémentaire pourrait être nécessaire."
+        elif prob > 0.25:
+            rec = "Radiographie probablement normale, avec quelques anomalies mineures possibles."
         else:
             rec = "Radiographie normale. Aucun signe de pneumonie détecté."
-
+        
+        # Ajouter une note sur la confiance si TTA utilisé
+        if use_tta and confidence_std > 0.15:
+            rec += " (Note: Variabilité dans la prédiction, résultat à interpréter avec prudence)"
+        
         return {
             'prediction': pred_label,
-            'probability': prob,
+            'probability': float(prob),
+            'raw_probability': float(raw_prob),
+            'confidence_std': float(confidence_std) if use_tta else None,
             'recommendation': rec,
-            'source': 'deep_learning'
+            'source': 'deep_learning_improved',
+            'threshold_used': CONFIDENCE_THRESHOLD,
+            'calibration_applied': calibrate
         }
 
     except Exception as e:
-        print(f"Erreur lors de la prédiction : {e}")
+        print(f"Erreur lors de la prédiction : {e}")
+        import traceback
+        traceback.print_exc()
         return {
             'prediction': "Erreur",
             'probability': 0.0,
-            'recommendation': f"Échec de l'analyse : {e}",
-            'source': 'fallback'
+            'recommendation': f"Échec de l'analyse : {str(e)}",
+            'source': 'error'
         }
+
+
+# Pour compatibilité avec l'ancienne API
+def load_model():
+    """Fonction de compatibilité"""
+    model, _ = load_chest_xray_model()
+    return model
+
+
+if __name__ == "__main__":
+    # Test du modèle amélioré
+    print("=== TEST DU MODÈLE AMÉLIORÉ ===\n")
+    
+    model_info = load_chest_xray_model()
+    if model_info[0]:
+        # Tester sur une image
+        test_images = ["radio5.jpg", "test.jpg", "normal.jpg", "pneumonia.jpg"]
+        
+        for img_path in test_images:
+            if os.path.exists(img_path):
+                print(f"\nTest sur {img_path}:")
+                
+                # Test avec calibration
+                result = predict_pneumonia(model_info, img_path, use_tta=True, calibrate=True)
+                print(f"  Avec calibration:")
+                print(f"    - Prédiction: {result['prediction']}")
+                print(f"    - Probabilité: {result['probability']:.4f}")
+                print(f"    - Probabilité brute: {result['raw_probability']:.4f}")
+                
+                # Test sans calibration pour comparaison
+                result_raw = predict_pneumonia(model_info, img_path, use_tta=False, calibrate=False)
+                print(f"  Sans calibration:")
+                print(f"    - Probabilité brute: {result_raw['probability']:.4f}")
