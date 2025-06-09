@@ -38,10 +38,10 @@ $username = $_SESSION['username'];
             <div class="sidebar">
                 <h3>Menu principal</h3>
                 <ul class="sidebar-menu">
-                    <li><a href="file:///C:/Users/natha/WNM-Lab/src/visuel/dashboard.html" class="active">Tableau de bord</a></li>
+                    <li><a href="file:///C:/Users/natha/WNM-Lab/src/visuel/dashboard.php" class="active">Tableau de bord</a></li>
                     <li><a href="file:///C:/Users/natha/WNM-Lab/src/visuel/nouvelle_analyse.html">Nouvelle analyse</a></li>
                     <li><a href="#">Historique</a></li>
-                    <li><a href="#">Paramètres</a></li>
+                    <li><a href="file:///C:/Users/natha/WNM-Lab/src/visuel/parametre.html">Paramètres</a></li>
                 </ul>
             </div>
             
