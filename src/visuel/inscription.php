@@ -56,8 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Portail d'inscription</h1>
     </section>
 
-    <p class="p1">Vous voulez faire partie de ceux qui se soucis réelement de leur santé ? </p>
-    <p>inscrivez vous gratuitement pour avoir accès à toutes nos fonctionalité</p>
+    <p class="p1">"Rejoignez notre communauté d'utilisateurs qui fait confiance à notre 
+        plateforme d'analyse médicale par intelligence artificielle.
+        Créez votre compte sécurisé en quelques clics pour commencer à analyser vos IRM et scanners. </p>
 
     <div class="wrapper">
         <div class="container">

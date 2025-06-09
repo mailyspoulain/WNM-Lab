@@ -31,6 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $successMessage = "Connexion réussie. Bienvenue, $username!";
                 // Tu pourrais rediriger l'utilisateur vers une page protégée après la connexion
                 // header('Location: dashboard.php'); exit;
+                session_start();
+                $_SESSION['username'] = $username;
+                header('Location: dashboard.php'); // ✅ Redirige immédiatement
+                exit;
             } else {
                 $errorMessage = "Mot de passe incorrect.";
             }
@@ -40,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (PDOException $e) {
         $errorMessage = "Erreur : " . $e->getMessage();
     }
+  
 }
 ?>
 
@@ -55,8 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Portail de connexion</h1>
     </section>
 
-    <p class="p1">Vous faites déja partie de ceux qui se soucient réelement de leur santé ? </p>
-    <p>Connectez vous pour pouvoir profiter pleinement de vos droits</p>
+    <p class="p1">Connectez-vous pour accéder à votre espace personnel et obtenir une analyse assistée 
+    par intelligence artificielle de vos IRM et scanners.</p>
 
     <div class="wrapper">
         <div class="container">
