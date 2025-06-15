@@ -19,6 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Récupération des données du formulaire
         $username = $_POST['register_username'];
         $password = $_POST['register_password']; // Mot de passe sans hachage
+        $mail = $_POST['register_mail'];
+        $tel = $_POST['register_num_tel'];
+        $prenom = $_POST['register_prenom'];
 
         // Vérifier si l'utilisateur existe déjà
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM usr WHERE username = :username");
@@ -29,10 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errorMessage = "Nom d'utilisateur déjà pris. Choisissez-en un autre.";
         } else {
             // Insertion des données dans la table
-            $stmt = $pdo->prepare("INSERT INTO usr (username, passwd) VALUES (:username, :password)");
+            $stmt = $pdo->prepare("INSERT INTO usr (username, passwd, email, tel, prenom) VALUES (:username, :password, :mail , :tel, :prenom)");
             $stmt->execute([
                 ':username' => $username,
-                ':password' => $password
+                ':password' => $password,
+                ':email' => $mail,
+                ':tel' => $tel,
+                ':prenom' => $prenom
             ]);
 
             $successMessage = "Inscription réussie ! Bienvenue dans MedVision AI.";
@@ -73,6 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form action="inscription.php" method="POST">
                 <input type="text" name="register_username" placeholder="Nom d'utilisateur" required>
                 <input type="password" name="register_password" placeholder="Mot de passe" required>
+                <input type="mail" name="register_mail" placeholder="Mail" required>
+                <input type="tel" name="register_num_tel" placeholder="Numéro de téléphone" required>
+                <input type="text" name="register_prenom" placeholder="Prénom" required>
                 <button type="submit">S'inscrire</button>
                 <p id="register_error" class="error"></p>
             </form>

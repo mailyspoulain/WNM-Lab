@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAI - Diagnostic assisté par IA pour images médicales afin de détecter une pneumonie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        /* Style du sidenav */
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: -250px; /* Caché par défaut */
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+        }
+
+        /* Sidenav menu links */
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidenav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidenav li {
+            margin: 10px 0;
+        }
+
+        /* Active class */
+        .sidenav.active {
+            right: 0;
+            width: 250px;
+        }
+
+        /* Close btn */
+        .sidenav .close {
+            position: absolute;
+            top: 0;
+            left: 25px;
+            font-size: 36px;
+            margin-right: 50px;
+            color: #818181;
+        }
+
+        .sidenav .close:hover {
+            color: #f1f1f1;
+        }
+
+        /* Bouton d'ouverture du menu */
+        #openBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2;
+            cursor: pointer;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+
+        #openBtn:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Icône burger */
+        .burger-icon span {
+            display: block;
+            width: 35px;
+            height: 5px;
+            background-color: black;
+            margin: 6px 0;
+            transition: 0.3s;
+        }
+
+        /* Animation de l'icône burger quand le menu est ouvert */
+        .burger-icon.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-9px, 6px);
+        }
+
+        .burger-icon.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-icon.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-8px, -8px);
+        }
+
+        /* Overlay pour fermer le menu en cliquant à côté */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 0;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Contenu principal */
+        .main-content {
+            margin-left: 0;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+
+        .header {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay pour fermer le menu -->
+    <div id="overlay" class="overlay"></div>
+    
+    <!-- Menu de navigation latéral -->
+    <div id="mySidenav" class="sidenav">
+        <a id="closeBtn" href="#" class="close">&times;</a>
+        <ul>
+            <li><a href="#">Information du compte</a></li>
+            <li><a href="#">Se déconnecter</a></li>
+            <li><a href="#">Tableau de bord</a></li>
+            <li><a href="#">Historique</a></li>
+            <li><a href="#">Paramètres</a></li>
+        </ul>
+    </div>
+
+    <!-- Bouton d'ouverture du menu -->
+    <a href="#" id="openBtn">
+        <span class="burger-icon" id="burgerIcon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </a>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <div class="header">
+            <h1>MedAI</h1>
+            <p>Diagnostic assisté par IA pour images médicales afin de détecter une pneumonie</p>
+        </div>
+    </div>
+
+    <script>
+        var sidenav = document.getElementById("mySidenav");
+        var openBtn = document.getElementById("openBtn");
+        var closeBtn = document.getElementById("closeBtn");
+        var overlay = document.getElementById("overlay");
+        var burgerIcon = document.getElementById("burgerIcon");
+
+        // Événements pour ouvrir et fermer le menu
+        openBtn.onclick = function(e) {
+            e.preventDefault();
+            openNav();
+        };
+
+        closeBtn.onclick = function(e) {
+            e.preventDefault();
+            closeNav();
+        };
+
+        // Fermer le menu en cliquant sur l'overlay
+        overlay.onclick = function() {
+            closeNav();
+        };
+
+        /* Ouvrir le menu de navigation */
+        function openNav() {
+            sidenav.classList.add("active");
+            overlay.classList.add("active");
+            burgerIcon.classList.add("active");
+        }
+
+        /* Fermer le menu de navigation */
+        function closeNav() {
+            sidenav.classList.remove("active");
+            overlay.classList.remove("active");
+            burgerIcon.classList.remove("active");
+        }
+
+        // Fermer le menu avec la touche Échap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeNav();
+            }
+        });
+    </script>
+</body>
+</html>

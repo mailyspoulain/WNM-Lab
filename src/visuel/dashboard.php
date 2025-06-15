@@ -23,7 +23,7 @@ $username = $_SESSION['username'];
         <nav class="nav">
             <a href="#" class="nav-link active">Dashboard</a>
             <a href="#" class="nav-link">Documentation</a>
-            <a href="#" class="nav-link">À propos</a>
+            <a href="a_propos.html" class="nav-link">À propos</a>
             <a href="#" class="nav-link">
                 <?php echo htmlspecialchars($username); ?>
                 <img src="https://via.placeholder.com/24" alt="Avatar" class="avatar" style="margin-left: 0.5rem;" />
@@ -38,10 +38,10 @@ $username = $_SESSION['username'];
             <div class="sidebar">
                 <h3>Menu principal</h3>
                 <ul class="sidebar-menu">
-                    <li><a href="file:///C:/Users/natha/WNM-Lab/src/visuel/dashboard.php" class="active">Tableau de bord</a></li>
-                    <li><a href="file:///C:/Users/natha/WNM-Lab/src/visuel/nouvelle_analyse.html">Nouvelle analyse</a></li>
-                    <li><a href="#">Historique</a></li>
-                    <li><a href="file:///C:/Users/natha/WNM-Lab/src/visuel/parametre.html">Paramètres</a></li>
+                    <li><a href="dashboard.php" class="active">Tableau de bord</a></li>
+                    <li><a href="nouvelle_analyse.html">Nouvelle analyse</a></li>
+                    <li><a href="historique.html">Historique</a></li>
+                    <li><a href="parametre.html">Paramètres</a></li>
                 </ul>
             </div>
             
