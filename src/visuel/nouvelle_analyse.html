@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -31,45 +32,45 @@
                 <h2>Nouvelle analyse</h2>
                 <p>Téléchargez une image médicale pour obtenir un diagnostic assisté par IA.</p>
                 
-                
                 <div class="card">
                     <div class="card-body">
                         <h3>Téléchargement d'image</h3>
-                        
-                        <div class="upload-area">
+                        <!-- PAS DE BALISE FORM ICI -->
+                        <div class="upload-area" id="uploadArea">
                             <img src="/api/placeholder/80/80" alt="Upload icon" />
                             <h3>Glissez-déposez votre image ici</h3>
                             <p>ou</p>
-                            <button class="btn">Parcourir les fichiers</button>
+                            <!-- IMPORTANT: type="button" -->
+                            <button type="button" class="btn" id="browseBtn">Parcourir les fichiers</button>
                             <p>Formats acceptés: JPEG, PNG, DICOM</p>
                         </div>
-                        
+                        <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.gif,.bmp" style="display:none" />
+
                         <div style="margin-top: 2rem;">
                             <h4>Informations additionnelles (facultatives)</h4>
-                            
                             <div class="form-group">
                                 <label for="patient-id">ID Patient (anonymisé)</label>
                                 <input type="text" id="patient-id" class="form-control" placeholder="ex: PAT-12345" />
                             </div>
-                            
                             <div class="form-group">
                                 <label for="notes">Notes médicales</label>
                                 <textarea id="notes" class="form-control" rows="3" placeholder="Ajoutez des notes ou symptômes pertinents..."></textarea>
                             </div>
-                            
                             <div class="flex items-center mt-4">
                                 <input type="checkbox" id="anonymize" checked />
                                 <label for="anonymize" style="margin-left: 0.5rem;">Anonymiser toutes les données patient de l'image</label>
                             </div>
                         </div>
-                        
                         <div style="margin-top: 2rem; text-align: center;">
-                            <button class="btn btn-primary">Lancer l'analyse</button>
+                            <!-- IMPORTANT: type="button" -->
+                            <button type="button" class="btn btn-primary" id="analyzeBtn" disabled>Lancer l'analyse</button>
                         </div>
                     </div>
                 </div>
+                <div id="resultContainer" style="margin-top:2rem;"></div>
             </div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
