@@ -1,0 +1,33 @@
+2025-06-16 10:27:55,015 - __main__ - INFO - Chargement du modèle...
+2025-06-16 10:27:55,016 - backend.models.model_loader_improved - INFO - Modèle trouvé : C:\xampp\htdocs\WNM-Lab\src\backend\models\densenet121_chest_xray_model.pth
+2025-06-16 10:27:55,016 - backend.models.model_loader_improved - INFO - Chargement du modèle depuis : C:\xampp\htdocs\WNM-Lab\src\backend\models\densenet121_chest_xray_model.pth
+2025-06-16 10:27:55,204 - __main__ - INFO - Modèle chargé avec succès !
+2025-06-16 10:27:55,269 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.181.158:5000
+2025-06-16 10:27:55,270 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-16 10:27:55,276 - werkzeug - INFO -  * Restarting with stat
+2025-06-16 10:27:58,611 - __main__ - INFO - Chargement du modèle...
+2025-06-16 10:27:58,611 - backend.models.model_loader_improved - INFO - Modèle trouvé : C:\xampp\htdocs\WNM-Lab\src\backend\models\densenet121_chest_xray_model.pth
+2025-06-16 10:27:58,611 - backend.models.model_loader_improved - INFO - Chargement du modèle depuis : C:\xampp\htdocs\WNM-Lab\src\backend\models\densenet121_chest_xray_model.pth
+2025-06-16 10:27:58,761 - __main__ - INFO - Modèle chargé avec succès !
+2025-06-16 10:27:58,775 - werkzeug - WARNING -  * Debugger is active!
+2025-06-16 10:27:58,783 - werkzeug - INFO -  * Debugger PIN: 169-615-177
+2025-06-16 10:28:17,733 - __main__ - INFO - Analyse de l'image: C:\xampp\htdocs\WNM-Lab\src\uploads\0c958cb6-58e7-498a-a20f-007104cd1e4f.jpeg
+2025-06-16 10:28:18,277 - __main__ - INFO - Résultat - Prédiction: Pneumonie, Probabilité: 99.96%, Confiance: 56.12%
+2025-06-16 10:28:18,278 - werkzeug - INFO - 127.0.0.1 - - [16/Jun/2025 10:28:18] "POST /api/analyze HTTP/1.1" 200 -
+2025-06-16 10:28:32,954 - __main__ - INFO - Analyse de l'image: C:\xampp\htdocs\WNM-Lab\src\uploads\d93993c1-e24d-4e2e-9b6e-7f61a2db0101.jpeg
+2025-06-16 10:28:33,497 - __main__ - INFO - Résultat - Prédiction: Normal, Probabilité: 1.15%, Confiance: 99.92%
+2025-06-16 10:28:33,498 - werkzeug - INFO - 127.0.0.1 - - [16/Jun/2025 10:28:33] "POST /api/analyze HTTP/1.1" 200 -
+2025-06-16 10:45:22,380 - __main__ - INFO - Analyse de l'image: C:\xampp\htdocs\WNM-Lab\src\uploads\265169db-31cd-4f0c-98e8-f7db4c34eb6a.jpeg
+2025-06-16 10:45:22,816 - __main__ - INFO - Résultat - Prédiction: Normal, Probabilité: 0.58%, Confiance: 99.93%
+2025-06-16 10:45:22,817 - werkzeug - INFO - 127.0.0.1 - - [16/Jun/2025 10:45:22] "POST /api/analyze HTTP/1.1" 200 -
+2025-06-16 10:50:02,414 - werkzeug - INFO -  * Detected change in 'C:\\xampp\\htdocs\\WNM-Lab\\src\\server.py', reloading
+2025-06-16 10:50:03,117 - werkzeug - INFO -  * Restarting with stat
+2025-06-16 10:50:06,569 - __main__ - INFO - Chargement du modèle...
+2025-06-16 10:50:06,570 - backend.models.model_loader_improved - INFO - Modèle trouvé : C:\xampp\htdocs\WNM-Lab\src\backend\models\densenet121_chest_xray_model.pth
+2025-06-16 10:50:06,570 - backend.models.model_loader_improved - INFO - Chargement du modèle depuis : C:\xampp\htdocs\WNM-Lab\src\backend\models\densenet121_chest_xray_model.pth
+2025-06-16 10:50:06,709 - __main__ - INFO - Modèle chargé avec succès !
+2025-06-16 10:50:06,721 - werkzeug - WARNING -  * Debugger is active!
+2025-06-16 10:50:06,726 - werkzeug - INFO -  * Debugger PIN: 169-615-177

@@ -1,3 +1,27 @@
+document.getElementById("registerForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let formData = new FormData();
+    formData.append("username", document.getElementById("username").value);
+    formData.append("password", document.getElementById("password").value);
+
+    fetch("register.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log("Réponse du serveur :", data); //  DEBUG ICI
+        document.getElementById("message").innerText = data;
+    })
+    .catch(error => console.error("Erreur :", error));
+});
+
+
+
+
+
+
 console.log("JS MedAI chargé - Version Fix Ultimate");
 
 // BLOQUER TOUT RECHARGEMENT DE PAGE
@@ -474,3 +498,20 @@ if (!document.getElementById('medai-styles')) {
     `;
     document.head.appendChild(style);
 }
+
+ 
+        // Lancer la commande dès le chargement de la page
+        window.onload = function() {
+            fetch('http://localhost:5000/launch')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Résultat:', data);
+                    if(data.status === 'success') {
+                        document.body.innerHTML += '<p>✅ Commande lancée avec succès!</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.body.innerHTML += '<p>❌ Erreur lors du lancement</p>';
+                });
+        };

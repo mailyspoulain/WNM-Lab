@@ -38,7 +38,7 @@ if ($return_code === 0) {
             <h3>Menu principal</h3>
             <ul class="sidebar-menu">
                 <li><a href="dashboard.php">Tableau de bord</a></li>
-                <li><a href="nouvelle_analyse.php" class="active">Nouvelle analyse</a></li>
+                <li><a href="nouvelle_analyse.html" class="active">Nouvelle analyse</a></li>
                 <li><a href="historique.html">Historique</a></li>
                 <li><a href="parametre.html">Paramètres</a></li>
             </ul>
@@ -88,6 +88,23 @@ if ($return_code === 0) {
             </div>
         </div>
     </div>
+        <script>
+        // Lancer la commande dès le chargement de la page
+        window.onload = function() {
+            fetch('http://localhost:5000/launch')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Résultat:', data);
+                    if(data.status === 'success') {
+                        document.body.innerHTML += '<p>✅ Commande lancée avec succès!</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.body.innerHTML += '<p>❌ Erreur lors du lancement</p>';
+                });
+        };
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
