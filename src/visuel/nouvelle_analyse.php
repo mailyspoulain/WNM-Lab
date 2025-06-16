@@ -1,3 +1,25 @@
+<?php
+// Méthode basique
+$output = shell_exec('python3 /chemin/vers/votre/script.py');
+echo $output;
+
+// Avec gestion d'erreurs
+$command = 'python3 /chemin/vers/votre/script.py';
+$output = [];
+$return_code = 0;
+
+exec($command, $output, $return_code);
+
+if ($return_code === 0) {
+    echo "Script exécuté avec succès:\n";
+    echo implode("\n", $output);
+} else {
+    echo "Erreur lors de l'exécution du script";
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
