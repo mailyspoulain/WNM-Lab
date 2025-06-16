@@ -1,12 +1,8 @@
 <?php
 // Méthode basique
-$output = shell_exec('python3 /chemin/vers/votre/script.py');
+$output = shell_exec('python3 app.py');
 echo $output;
 
-// Avec gestion d'erreurs
-$command = 'python3 /chemin/vers/votre/script.py';
-$output = [];
-$return_code = 0;
 
 exec($command, $output, $return_code);
 
