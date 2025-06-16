@@ -1,6 +1,6 @@
 <?php
 // Méthode basique
-$output = shell_exec('python3 app.py');
+$output = shell_exec('python3 backend/app.py');
 echo $output;
 
 
@@ -13,7 +13,6 @@ if ($return_code === 0) {
     echo "Erreur lors de l'exécution du script";
 }
 ?>
-
 
 
 <!DOCTYPE html>
@@ -39,7 +38,7 @@ if ($return_code === 0) {
             <h3>Menu principal</h3>
             <ul class="sidebar-menu">
                 <li><a href="dashboard.php">Tableau de bord</a></li>
-                <li><a href="nouvelle_analyse.html" class="active">Nouvelle analyse</a></li>
+                <li><a href="nouvelle_analyse.php" class="active">Nouvelle analyse</a></li>
                 <li><a href="historique.html">Historique</a></li>
                 <li><a href="parametre.html">Paramètres</a></li>
             </ul>
